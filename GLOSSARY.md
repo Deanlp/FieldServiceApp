@@ -69,8 +69,12 @@ _Avoid_: Partner ticket, external ID
 ### Money
 
 **Warranty Claim**:
-The monthly spreadsheet sent to SMEG listing that month's completed **Warranty Jobs** for payment.
-_Avoid_: SMEG invoice, claim form
+The monthly cover sheet sent to SMEG listing the completed, payable **Warranty Jobs** in a **Claim Period**.
+_Avoid_: SMEG invoice, claim form, coversheet
+
+**Claim Period**:
+The window a **Warranty Claim** covers: the 6th of the previous month to the 5th of the current month.
+_Avoid_: Claim month, billing cycle
 
 ### Communication
 
