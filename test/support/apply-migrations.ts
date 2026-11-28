@@ -4,8 +4,8 @@ import { beforeEach } from "vitest";
 
 await applyD1Migrations(env.DB, env.TEST_MIGRATIONS);
 
-// Each test starts from an empty database (seeded settings are kept).
-const KEEP = new Set(["d1_migrations", "app_setting"]);
+// Each test starts from an empty database (seeded settings and pick-lists are kept).
+const KEEP = new Set(["d1_migrations", "app_setting", "picklist_item"]);
 beforeEach(async () => {
   const { results } = await env.DB.prepare(
     "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%'",

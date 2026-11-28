@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { api, ApiError } from "./api";
+import { ContactJobs, JobView, NewJob } from "./Jobs";
 
 export interface Address {
   line: string;
@@ -28,9 +29,24 @@ export const displayPhone = (e164: string) => {
 };
 
 export function Contacts() {
-  const [view, setView] = useState<{ mode: "search" } | { mode: "new"; phone: string } | { mode: "show"; id: string; warnings?: Warning[] }>({
-    mode: "search",
-  });
+  const [view, setView] = useState<
+    | { mode: "search" }
+    | { mode: "new"; phone: string }
+    | { mode: "show"; id: string; warnings?: Warning[] }
+    | { mode: "newJob"; customer: Contact }
+    | { mode: "job"; id: string }
+  >({ mode: "search" });
+
+  if (view.mode === "newJob")
+    return (
+      <NewJob
+        customer={view.customer}
+        onCancel={() => setView({ mode: "show", id: view.customer.id })}
+        onCreated={(job) => setView({ mode: "job", id: job.id })}
+      />
+    );
+  if (view.mode === "job")
+    return <JobView id={view.id} onBack={() => setView({ mode: "search" })} onOpenContact={(id) => setView({ mode: "show", id })} />;
 
   if (view.mode === "new")
     return (
@@ -41,7 +57,16 @@ export function Contacts() {
       />
     );
   if (view.mode === "show")
-    return <ContactView id={view.id} warnings={view.warnings} onBack={() => setView({ mode: "search" })} onOpen={(id) => setView({ mode: "show", id })} />;
+    return (
+      <ContactView
+        id={view.id}
+        warnings={view.warnings}
+        onBack={() => setView({ mode: "search" })}
+        onOpen={(id) => setView({ mode: "show", id })}
+        onNewJob={(customer) => setView({ mode: "newJob", customer })}
+        onOpenJob={(id) => setView({ mode: "job", id })}
+      />
+    );
   return <ContactSearch onOpen={(id) => setView({ mode: "show", id })} onNew={(phone) => setView({ mode: "new", phone })} />;
 }
 
@@ -89,7 +114,11 @@ function ContactSearch({ onOpen, onNew }: { onOpen: (id: string) => void; onNew:
   );
 }
 
-function ContactView({ id, warnings, onBack, onOpen }: { id: string; warnings?: Warning[]; onBack: () => void; onOpen: (id: string) => void }) {
+function ContactView({
+  id, warnings, onBack, onOpen, onNewJob, onOpenJob,
+}: {
+  id: string; warnings?: Warning[]; onBack: () => void; onOpen: (id: string) => void; onNewJob: (c: Contact) => void; onOpenJob: (id: string) => void;
+}) {
   const [contact, setContact] = useState<Contact | null>(null);
   const [editing, setEditing] = useState(false);
   const [shownWarnings, setShownWarnings] = useState(warnings ?? []);
@@ -134,6 +163,9 @@ function ContactView({ id, warnings, onBack, onOpen }: { id: string; warnings?: 
         ))}
         <button className="secondary" onClick={() => setEditing(true)}>Edit</button>
       </div>
+      <button onClick={() => onNewJob(contact)}>New Job</button>
+      <h3>Jobs</h3>
+      <ContactJobs contactId={contact.id} onOpen={onOpenJob} />
     </section>
   );
 }

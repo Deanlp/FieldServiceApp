@@ -61,3 +61,10 @@ button.link { background: none; color: var(--brand); min-height: 40px; }
 .link.inline { min-height: 0; padding: 0; text-decoration: underline; }
 label.checkbox { flex-direction: row; align-items: center; gap: 10px; font-weight: 400; }
 label.checkbox input { min-height: 0; width: 20px; height: 20px; }
+textarea { font: inherit; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--fg); resize: vertical; }
+fieldset { border: 0; padding: 0; margin: 0; }
+legend { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips button { flex: 0 0 auto; min-height: 44px; }
+.row label { flex: 1; min-width: 0; }
+@media (max-width: 420px) { .row:has(label) { flex-direction: column; } }

@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { nationalForm, normaliseSaPhone, searchDigits } from "../domain/phone";
 import type { AppContext } from "./app";
 import { normaliseEmail, requireRole } from "./auth";
+import { jobsForContact } from "./jobs";
 
 export interface Address {
   line: string;
@@ -121,6 +122,10 @@ export function contactRoutes() {
   });
 
   r.get("/", async (c) => {
+    if (c.req.query("partners") === "true") {
+      const { results } = await c.env.DB.prepare("SELECT id FROM contact WHERE is_partner = 1 ORDER BY name").all<{ id: string }>();
+      return c.json(await loadContacts(c.env.DB, results.map((x) => x.id)));
+    }
     const q = (c.req.query("q") ?? "").trim();
     if (q.length < 2) return c.json([]);
     const db = c.env.DB;
@@ -151,6 +156,8 @@ export function contactRoutes() {
     const [contact] = await loadContacts(c.env.DB, [id]);
     return c.json({ contact, warnings }, 201);
   });
+
+  r.get("/:id/jobs", async (c) => c.json(await jobsForContact(c.env.DB, c.req.param("id"))));
 
   r.get("/:id", async (c) => {
     const [contact] = await loadContacts(c.env.DB, [c.req.param("id")]);
