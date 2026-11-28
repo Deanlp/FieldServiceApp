@@ -17,10 +17,19 @@ It is a TypeScript web app, installable to a phone's home screen, running on Clo
 
 ```bash
 npm install
+cp .dev.vars.example .dev.vars
 npm run dev
 ```
 
-This builds the web app, applies migrations to a local database, and serves everything at http://localhost:8787.
+This builds the web app, applies migrations to a local database, and serves everything at http://localhost:8787. With `.dev.vars` copied, emails (including sign-in codes) are printed in the terminal instead of being sent.
+
+Create the first (owner) account once:
+
+```bash
+curl -X POST http://localhost:8787/api/setup -H 'x-setup-token: dev-setup-token' -H 'content-type: application/json' -d '{"name":"Your name","email":"you@example.com"}'
+```
+
+Then open the app and sign in with that email.
 
 ## Test
 
@@ -36,6 +45,8 @@ CI runs typecheck, tests and build on every push.
 1. Log in: `npx wrangler login`
 2. Create the database: `npx wrangler d1 create happyhome-field`, then put the printed `database_id` into `wrangler.jsonc`.
 3. Create the photo bucket: `npx wrangler r2 bucket create happyhome-field-photos`
-4. Deploy: `npm run deploy` (builds, applies migrations to the remote database, deploys the Worker).
+4. Set secrets: `npx wrangler secret put SETUP_TOKEN` (any long random string), `npx wrangler secret put RESEND_API_KEY`, and set `MAIL_FROM` (e.g. `Happy Home <noreply@send.yourdomain.co.za>`) as a variable in `wrangler.jsonc` or with `wrangler secret put`. Email DNS steps are in `docs/research/email-provider.md`.
+5. Deploy: `npm run deploy` (builds, applies migrations to the remote database, deploys the Worker).
+6. Create the owner account with the `curl` command above, using the live URL and your `SETUP_TOKEN`. After that, setup refuses to run again.
 
 After that, `npm run deploy` is all that is needed.
