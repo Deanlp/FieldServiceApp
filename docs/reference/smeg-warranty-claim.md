@@ -19,12 +19,12 @@ Source: SMEG SA's "Cover Page Sample.xlsx" and claim instructions (Service Admin
 | G | Total km travel | Sum of round-trip km across all **Visits** on the **Job** |
 | H | 120km – 200km | R450 if any single round trip exceeded 120 km, else 0 (once per ticket) |
 | I | Travel amount (after 200km) | Excess km beyond 200 per trip × R5.50 |
-| J | Travel time (after 200km) | Excess km ÷ 100 × R150 per hour; 50–90 km excess = 0.5 h; under 50 km = 0 |
+| J | Travel time (after 200km) | R150 per full 100 km of excess, plus 0.5 h for a remainder of 50 km or more |
 | K | Extras | Sum of claimable extras (consumables, exchange, extra manpower, tolls, extra trips' R450 band) |
 | L | Total | `=SUM(F:K)` for the row, excluding VAT |
 | M | Notes | Visits made, parts fitted (part numbers), extras justification, linked tickets |
 
-Formulas from the instructions as written; confirm the excess-km rule for multiple trips in the spec (second trip's R450 goes into Extras, not column H).
+A second trip over 120 km adds its R450 to Extras, not column H. Most Cape Town jobs have no travel extras at all.
 
 ## Business rules
 
