@@ -1,0 +1,28 @@
+{
+  "name": "happyhome-field",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build && wrangler d1 migrations apply DB --local && wrangler dev",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "vite build && wrangler d1 migrations apply DB --remote && wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^4.13.23",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.10.0",
+    "@cloudflare/workers-types": "^5.20261128.1",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.4.0",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.169.0"
+  }
+}

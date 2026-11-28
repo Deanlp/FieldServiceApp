@@ -1,0 +1,25 @@
+// Cloudflare configuration for Happy Home Field Service (ADR 0004).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "happyhome-field",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "happyhome-field",
+      // Replace with the id printed by `wrangler d1 create happyhome-field`.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "PHOTOS", "bucket_name": "happyhome-field-photos" }
+  ]
+}
