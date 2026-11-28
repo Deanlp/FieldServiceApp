@@ -48,3 +48,16 @@ button.link { background: none; color: var(--brand); min-height: 40px; }
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px;
 }
 .list li.inactive { opacity: 0.6; }
+.clickable { cursor: pointer; }
+.clickable:hover { border-color: var(--brand); }
+.tag { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; background: var(--border); color: var(--fg); vertical-align: middle; }
+.tabs, .row, .segmented { display: flex; gap: 8px; }
+.tabs > *, .row > *, .segmented > * { flex: 1; }
+.back { align-self: flex-start; padding: 0; }
+.big-link { font-size: 1.15rem; font-weight: 600; color: var(--brand); text-decoration: none; }
+.card p { margin: 0; }
+.warning { border: 1px solid #c58a00; background: color-mix(in srgb, #f5b400 14%, var(--surface)); border-radius: 12px; padding: 12px; }
+.warning p { margin: 6px 0 0; }
+.link.inline { min-height: 0; padding: 0; text-decoration: underline; }
+label.checkbox { flex-direction: row; align-items: center; gap: 10px; font-weight: 400; }
+label.checkbox input { min-height: 0; width: 20px; height: 20px; }

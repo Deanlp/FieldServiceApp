@@ -166,3 +166,9 @@ export const requireOwner = createMiddleware<AppContext>(async (c, next) => {
   if (!c.var.user.isOwner) return c.json({ error: "forbidden" }, 403);
   await next();
 });
+
+export const requireRole = (role: Role) =>
+  createMiddleware<AppContext>(async (c, next) => {
+    if (c.var.user.role !== role) return c.json({ error: "forbidden" }, 403);
+    await next();
+  });

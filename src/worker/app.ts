@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import type { Adapters } from "./adapters";
 import { authRoutes, requireUser, type User } from "./auth";
 import type { Env } from "./env";
+import { contactRoutes } from "./contacts";
 import { userRoutes } from "./users";
 
 export interface Clock {
@@ -35,6 +36,7 @@ export function createApp(deps: Deps) {
   app.use("*", requireUser);
   app.get("/me", (c) => c.json(c.var.user));
   app.route("/users", userRoutes());
+  app.route("/contacts", contactRoutes());
 
   app.notFound((c) => c.json({ error: "not_found" }, 404));
 
